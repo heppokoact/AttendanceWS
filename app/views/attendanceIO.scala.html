@@ -1,0 +1,60 @@
+@(errors: Seq[services.AttendanceImportError], messages: Seq[String])
+
+@import helper._
+
+@title = @{"出欠記録インポート／エクスポート"}
+
+@main(title) {
+  <script type="text/javascript">
+    $(function() {
+        $("#impForm").submit(function() {
+            return confirm("インポートを実施すると、現在データベースに格納されている出欠記録は全て削除されます。\n本当にインポートを実施しますか？")
+        })
+    })
+  </script>
+
+  <h1>@title</h1>
+
+  
+  @if(!errors.isEmpty) {
+    <ul style="padding-left: 0px; list-style-position: inside;">
+    @errors.map { error =>
+      <li style="background-color: #FF4444; padding-left: 10px;">
+        @error.line.map @{line => s"[${line + 1}行目]"}.getOrElse("")@error.message 
+      </li>
+    }
+    </ul>
+  }
+  @if(!messages.isEmpty) {
+    <ul style="padding-left: 0px; list-style-position: inside;">
+    @messages.map { message =>
+      <li style="background-color: #44FF44; padding-left: 10px;">
+        @message
+      </li>
+    }
+    </ul>
+  }
+
+  @form(action = routes.AttendanceIOController.imp, 'enctype -> "multipart/form-data", 'id -> "impForm") {
+    <fieldset>
+      <legend>出欠記録インポート</legend>
+      <input type="file" name="attendances" />
+      <input type="submit" value="インポート" />
+      <br/>
+      <h3>注意事項</h3>
+      <ul>
+        <li>項番列に入力のある行をインポートします。インポートしたい行は必ず項番行に「０以外」の「数値」を入力してください。</li>
+        <li>逆に、インポートする行以外は項番列を空にしてください。</li>
+        <li>インポートを実施すると、現在データベースに格納されている出欠記録は全て削除されます。</li>
+      </ul>
+    </fieldset>
+  }
+  
+  @form(action = routes.AttendanceIOController.exp, 'method -> "GET") {
+    <fieldset>
+      <legend>出欠記録エクスポート</legend>
+      <input type="submit" value="エクスポート" />
+    </fieldset>
+  }
+
+}

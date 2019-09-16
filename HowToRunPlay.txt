@@ -1,0 +1,5 @@
+このMACにインストールしてあるPlayはJava1.7でしか動きません。
+しかしJavaのバージョンは1.8に上げてしまったので、通常通りplay runしても動きません
+動かすためには下記コマンドでJAVA_HOMEを書き換える必要があります。
+
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)

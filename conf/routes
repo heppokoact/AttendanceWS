@@ -1,0 +1,19 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+
+# Attendance
+GET     /AttendanceWS/attendance           controllers.AttendanceController.find
+PUT     /AttendanceWS/attendance           controllers.AttendanceController.update
+GET     /AttendanceWS/attendance/project   controllers.AttendanceController.project
+GET     /AttendanceWS/attendance/:id       controllers.AttendanceController.findById(id: Long)
+
+# AttendanceIO
+GET     /AttendanceWS/attendanceIO         controllers.AttendanceIOController.index
+POST    /AttendanceWS/attendanceIO/imp     controllers.AttendanceIOController.imp
+GET     /AttendanceWS/attendanceIO/exp     controllers.AttendanceIOController.exp
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
